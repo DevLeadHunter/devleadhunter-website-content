@@ -43,18 +43,29 @@ export interface SiteContentOpeningHours {
 }
 
 export interface SiteContent {
+  // Identity / contact
   businessName?: string
   phone?: string
   email?: string
   city?: string
   area?: string
+
+  // Editorial (the prospect's own words — tagline + longer story)
   subtitle?: string
+  about?: string
+
+  // Media (scraped/enriched photos of the business and its work)
+  heroImage?: string
+  aboutImage?: string
+  gallery?: SiteContentGalleryImage[]
+
+  // Design
   palette?: SiteContentPalette
 
+  // Structured content (a template renders the subset it needs; empty = hidden section)
   services?: SiteContentService[]
   reviews?: SiteContentReview[]
   faq?: SiteContentFaqItem[]
-  gallery?: SiteContentGalleryImage[]
   zones?: string[]
   openingHours?: SiteContentOpeningHours[]
 }
