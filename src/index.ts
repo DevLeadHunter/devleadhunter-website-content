@@ -42,6 +42,22 @@ export interface SiteContentOpeningHours {
   hours?: string
 }
 
+export interface SiteContentBeforeAfterPair {
+  /** Photo du chantier avant l'intervention. */
+  before?: string
+  /** Photo du même chantier après l'intervention. */
+  after?: string
+  /** Libellé court de la réalisation (ex. « Rénovation salle de bain »). */
+  label?: string
+}
+
+export interface SiteContentTrustItem {
+  /** Chiffre ou valeur mise en avant (ex. « 7j/7 », « Devis 0 € »). */
+  value?: string
+  /** Libellé sous la valeur (ex. « Dépannage & urgences »). */
+  label?: string
+}
+
 export interface SiteContent {
   // Identity / contact
   businessName?: string
@@ -53,6 +69,26 @@ export interface SiteContent {
   // Editorial (the prospect's own words — tagline + longer story)
   subtitle?: string
   about?: string
+
+  // Editorial copy (client-editable in the CMS; empty = the template's own default text).
+  // Pre-filled at generation with the template's real copy so the client edits what he sees.
+  /** Petit badge au-dessus du titre du hero (ex. « Artisan plombier »). */
+  heroBadge?: string
+  /** Points forts courts affichés dans le hero (ex. « Devis gratuit »). */
+  heroPoints?: string[]
+  /** Texte du bouton d'appel. */
+  ctaCallLabel?: string
+  /** Texte du bouton de demande de devis. */
+  ctaQuoteLabel?: string
+  /** Repères de confiance (chiffres/garanties) affichés sous le hero. */
+  trustItems?: SiteContentTrustItem[]
+  /** Titres des sections communes (vide = titre par défaut du template). */
+  servicesHeading?: string
+  galleryHeading?: string
+  reviewsHeading?: string
+  faqHeading?: string
+  aboutHeading?: string
+  contactHeading?: string
 
   // Media (scraped/enriched photos of the business and its work)
   heroImage?: string
@@ -68,6 +104,8 @@ export interface SiteContent {
   faq?: SiteContentFaqItem[]
   zones?: string[]
   openingHours?: SiteContentOpeningHours[]
+  /** Réalisations avant/après (paires de photos, éditables par le client dans son CMS). */
+  beforeAfter?: SiteContentBeforeAfterPair[]
 }
 
 /**
