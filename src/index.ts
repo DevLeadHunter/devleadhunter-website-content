@@ -58,6 +58,13 @@ export interface SiteContentTrustItem {
   label?: string
 }
 
+export interface SiteContentSocialLink {
+  /** Réseau : facebook, instagram, linkedin, tiktok, youtube, twitter. */
+  network?: string
+  /** URL complète du profil (ex. « https://facebook.com/monentreprise »). */
+  url?: string
+}
+
 export interface SiteContent {
   // Identity / contact
   businessName?: string
@@ -106,6 +113,8 @@ export interface SiteContent {
   openingHours?: SiteContentOpeningHours[]
   /** Réalisations avant/après (paires de photos, éditables par le client dans son CMS). */
   beforeAfter?: SiteContentBeforeAfterPair[]
+  /** Liens réseaux sociaux (affichés en pied de page / section contact). */
+  social?: SiteContentSocialLink[]
 }
 
 /**
