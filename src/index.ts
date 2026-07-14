@@ -98,6 +98,8 @@ export interface SiteContent {
   contactHeading?: string
 
   // Media (scraped/enriched photos of the business and its work)
+  /** Logo de l'entreprise (URL) — utilisé notamment comme favicon. */
+  logo?: string
   heroImage?: string
   aboutImage?: string
   gallery?: SiteContentGalleryImage[]
