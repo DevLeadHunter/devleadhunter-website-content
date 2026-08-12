@@ -117,6 +117,26 @@ export interface SiteContent {
   beforeAfter?: SiteContentBeforeAfterPair[]
   /** Liens réseaux sociaux (affichés en pied de page / section contact). */
   social?: SiteContentSocialLink[]
+
+  /**
+   * Storyblok click-to-edit markers, per section. Present ONLY inside the Visual Editor (the API's
+   * `content_json` never carries them), so binding them is inert on the public site. A template
+   * spreads the matching entry on each section root via `editableAttrs` to make it clickable.
+   */
+  _editable?: SiteContentEditable
+}
+
+/** Per-section Storyblok `_editable` strings (keyed by the section the template renders). */
+export interface SiteContentEditable {
+  hero?: string
+  trust?: string
+  about?: string
+  services?: string
+  gallery?: string
+  reviews?: string
+  faq?: string
+  beforeAfter?: string
+  contact?: string
 }
 
 /**
@@ -124,5 +144,34 @@ export interface SiteContent {
  * @returns {SiteContent} An empty content object.
  */
 export function emptySiteContent(): SiteContent {
+  return {}
+}
+
+/**
+ * Turn a Storyblok `_editable` string into the `data-blok-*` attributes that make a rendered element
+ * clickable in the Visual Editor. Framework-agnostic (returns a plain object to spread / `v-bind`);
+ * mirrors `@storyblok/js`'s `storyblokEditable`. Returns `{}` outside the editor, so it is a no-op
+ * on the public site.
+ *
+ * @param {string | undefined} editable - A section's `_editable` marker (e.g. `content._editable?.hero`).
+ * @returns {Record<string, string>} The `data-blok-c` / `data-blok-uid` attributes, or `{}` when absent/invalid.
+ */
+export function editableAttrs(editable?: string): Record<string, string> {
+  if (!editable) {
+    return {}
+  }
+  try {
+    const options: { id?: string | number; uid?: string } = JSON.parse(
+      editable.replace(/^<!--#storyblok#/, '').replace(/-->$/, ''),
+    )
+    if (options && options.id !== undefined && options.uid) {
+      return {
+        'data-blok-c': JSON.stringify(options),
+        'data-blok-uid': `${options.id}-${options.uid}`,
+      }
+    }
+  } catch {
+    return {}
+  }
   return {}
 }
