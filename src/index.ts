@@ -169,6 +169,8 @@ export interface SiteContentEditable {
   reviews?: string
   faq?: string
   beforeAfter?: string
+  team?: string
+  portfolio?: string
   contact?: string
 }
 
