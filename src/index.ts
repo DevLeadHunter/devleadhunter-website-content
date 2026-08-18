@@ -118,6 +118,8 @@ export interface SiteContent {
   faqHeading?: string
   aboutHeading?: string
   contactHeading?: string
+  teamHeading?: string
+  portfolioHeading?: string
 
   // Media (scraped/enriched photos of the business and its work)
   /** Logo de l'entreprise (URL) — utilisé notamment comme favicon. */
