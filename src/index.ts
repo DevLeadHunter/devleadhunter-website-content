@@ -19,6 +19,28 @@ export interface SiteContentService {
   title?: string
   description?: string
   icon?: string
+  /** Photo illustrant le service (carte prestation, soin, plat…), éditable par le client. */
+  image?: string
+}
+
+export interface SiteContentTeamMember {
+  /** Photo du membre de l'équipe. */
+  photo?: string
+  /** Nom du membre (ex. « Dr Marie Lefèvre »). */
+  name?: string
+  /** Rôle / spécialité (ex. « Chirurgien-dentiste »). */
+  role?: string
+  /** Courte présentation du membre. */
+  bio?: string
+}
+
+export interface SiteContentPortfolioItem {
+  /** Photo de la réalisation. */
+  image?: string
+  /** Titre de la réalisation (ex. « Jardin contemporain à Rennes »). */
+  title?: string
+  /** Catégorie / type de chantier (ex. « Aménagement paysager »). */
+  category?: string
 }
 
 export interface SiteContentReview {
@@ -103,6 +125,13 @@ export interface SiteContent {
   heroImage?: string
   aboutImage?: string
   gallery?: SiteContentGalleryImage[]
+  /**
+   * Generic map of template-specific image slots, keyed by a slot name the template chooses
+   * (e.g. `midCta`, `contactBackground`, `aboutCollageLeft`). Keeps one-off images a single
+   * template renders out of the shared contract's named fields (golden rule) while still making
+   * each one an editable, click-to-edit asset in the client's CMS.
+   */
+  images?: Record<string, string>
 
   // Design
   palette?: SiteContentPalette
@@ -115,6 +144,10 @@ export interface SiteContent {
   openingHours?: SiteContentOpeningHours[]
   /** Réalisations avant/après (paires de photos, éditables par le client dans son CMS). */
   beforeAfter?: SiteContentBeforeAfterPair[]
+  /** Membres de l'équipe (photo + nom + rôle), pour les métiers qui présentent leur personnel. */
+  teamMembers?: SiteContentTeamMember[]
+  /** Réalisations / portfolio (photo + titre + catégorie), éditables par le client. */
+  portfolio?: SiteContentPortfolioItem[]
   /** Liens réseaux sociaux (affichés en pied de page / section contact). */
   social?: SiteContentSocialLink[]
 
