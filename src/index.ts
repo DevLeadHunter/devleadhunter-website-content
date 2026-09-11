@@ -101,6 +101,8 @@ export interface SiteContent {
 
   // Editorial copy (client-editable in the CMS; empty = the template's own default text).
   // Pre-filled at generation with the template's real copy so the client edits what he sees.
+  /** Grand titre (H1) du hero. Vide = le titre par défaut du template. */
+  heroTitle?: string
   /** Petit badge au-dessus du titre du hero (ex. « Artisan plombier »). */
   heroBadge?: string
   /** Points forts courts affichés dans le hero (ex. « Devis gratuit »). */
