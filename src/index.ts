@@ -54,6 +54,13 @@ export interface SiteContentFaqItem {
   answer?: string
 }
 
+export interface SiteContentStep {
+  /** Titre court de l'étape (ex. « Visite & écoute »). */
+  title?: string
+  /** Ce qui se passe à cette étape. */
+  description?: string
+}
+
 export interface SiteContentGalleryImage {
   url?: string
   alt?: string
@@ -115,6 +122,10 @@ export interface SiteContent {
   trustItems?: SiteContentTrustItem[]
   /** Titres des sections communes (vide = titre par défaut du template). */
   servicesHeading?: string
+  /** Paragraphe d'introduction sous le titre de la section services (vide = défaut du template). */
+  servicesLead?: string
+  /** Titre de la section « méthode / comment ça se passe » (vide = défaut du template). */
+  stepsHeading?: string
   galleryHeading?: string
   reviewsHeading?: string
   faqHeading?: string
@@ -144,6 +155,8 @@ export interface SiteContent {
   services?: SiteContentService[]
   reviews?: SiteContentReview[]
   faq?: SiteContentFaqItem[]
+  /** Étapes de la méthode / du déroulé (vide = les étapes par défaut du template). */
+  steps?: SiteContentStep[]
   zones?: string[]
   openingHours?: SiteContentOpeningHours[]
   /** Réalisations avant/après (paires de photos, éditables par le client dans son CMS). */
@@ -169,6 +182,7 @@ export interface SiteContentEditable {
   trust?: string
   about?: string
   services?: string
+  method?: string
   gallery?: string
   reviews?: string
   faq?: string
