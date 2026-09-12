@@ -126,6 +126,14 @@ export interface SiteContent {
   servicesLead?: string
   /** Titre de la section « méthode / comment ça se passe » (vide = défaut du template). */
   stepsHeading?: string
+  /** Paragraphe d'introduction sous le titre de la section réalisations (vide = défaut du template). */
+  portfolioLead?: string
+  /** Paragraphe d'introduction de la section contact (vide = défaut du template). */
+  contactLead?: string
+  /** Titre du bandeau d'appel à l'action au-dessus du contact (vide = défaut du template). */
+  ctaTitle?: string
+  /** Paragraphe du bandeau d'appel à l'action au-dessus du contact (vide = défaut du template). */
+  ctaLead?: string
   galleryHeading?: string
   reviewsHeading?: string
   faqHeading?: string
