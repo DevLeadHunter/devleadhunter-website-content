@@ -101,6 +101,10 @@ export interface SiteContent {
   email?: string
   city?: string
   area?: string
+  /** Libellé de la licence professionnelle affichée en pied de page (ex. « Licence RBQ »). */
+  professionalLicenseLabel?: string
+  /** Numéro de la licence professionnelle (ex. « 5678-1234-01 ») ; vide = rien d'affiché. */
+  professionalLicenseNumber?: string
 
   // Editorial (the prospect's own words — tagline + longer story)
   subtitle?: string
