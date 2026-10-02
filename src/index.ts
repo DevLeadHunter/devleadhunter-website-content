@@ -240,3 +240,20 @@ export function editableAttrs(editable?: string): Record<string, string> {
   }
   return {}
 }
+
+/**
+ * Build the line a template prints for the professional licence (« Licence RBQ 5678-1234-01 »).
+ *
+ * @param {Pick<SiteContent, 'professionalLicenseLabel' | 'professionalLicenseNumber'>} content - Content carrying the licence fields.
+ * @returns {string} The label and number joined by a space, or '' when there is no number (nothing to display).
+ */
+export function professionalLicenseLine(
+  content: Pick<SiteContent, 'professionalLicenseLabel' | 'professionalLicenseNumber'>,
+): string {
+  const number: string = (content.professionalLicenseNumber ?? '').trim()
+  if (!number) {
+    return ''
+  }
+  const label: string = (content.professionalLicenseLabel ?? '').trim()
+  return label ? `${label} ${number}` : number
+}
