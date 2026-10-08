@@ -263,14 +263,8 @@ export function professionalLicenseLine(
   return label ? `${label} ${number}` : number
 }
 
-/**
- * Libellés écrits en dur par les templates (et leurs textes par défaut), en français de France, avec
- * leur formulation québécoise. Phrase exacte contre phrase exacte, jamais mot à mot : l'article et
- * l'adjectif s'accordent avec le nouveau mot (« Devis gratuit » → « Soumission gratuite »). Une
- * template qui écrit un nouveau libellé propre à la France l'ajoute ici, au caractère près.
- */
-const QUEBEC_LABELS: ReadonlyMap<string, string> = new Map<string, string>([
-  // Contact
+/** Libellés écrits en dur par les templates, en français de France, et leur formulation québécoise : phrase exacte au caractère près, pour que l'accord reste juste. */
+const QUEBEC_LABELS: Map<string, string> = new Map([
   ['E-mail', 'Courriel'],
   ['E-mail :', 'Courriel :'],
   ['Email', 'Courriel'],
@@ -278,7 +272,6 @@ const QUEBEC_LABELS: ReadonlyMap<string, string> = new Map<string, string>([
   ['EMAIL', 'COURRIEL'],
   ['Votre adresse email', 'Votre adresse courriel'],
   ['Écrire un email', 'Écrire un courriel'],
-  // Devis
   ['Devis gratuit', 'Soumission gratuite'],
   ['Devis gratuit et sans engagement', 'Soumission gratuite et sans engagement'],
   ['Devis gratuit et sans engagement.', 'Soumission gratuite et sans engagement.'],
@@ -290,10 +283,8 @@ const QUEBEC_LABELS: ReadonlyMap<string, string> = new Map<string, string>([
   ['Demandez votre devis gratuit', 'Demandez votre soumission gratuite'],
   ['Le devis est-il gratuit ?', 'La soumission est-elle gratuite ?'],
   ['Le devis est-il vraiment gratuit ?', 'La soumission est-elle vraiment gratuite ?'],
-  // Métier
   ['Artisan électricien', 'Entrepreneur électricien'],
   ['Un seul artisan pour tout votre extérieur', 'Un seul entrepreneur pour tout votre extérieur'],
-  // Textes par défaut de l'électricien Éclat
   ['Visite et devis', 'Visite et soumission'],
   [
     'Passage sur place, puis devis gratuit et détaillé.',
@@ -315,7 +306,6 @@ const QUEBEC_LABELS: ReadonlyMap<string, string> = new Map<string, string>([
     'Par téléphone, par e-mail ou avec le formulaire : réponse rapide et devis gratuit.',
     'Par téléphone, par courriel ou avec le formulaire : réponse rapide et soumission gratuite.',
   ],
-  // Textes par défaut du paysagiste Verdure
   [
     'Oui. Nous nous déplaçons, écoutons votre projet et vous remettons un devis écrit, détaillé et sans engagement, avant tout début de chantier.',
     'Oui. Nous nous déplaçons, écoutons votre projet et vous remettons une soumission écrite, détaillée et sans engagement, avant tout début de chantier.',
@@ -328,7 +318,6 @@ const QUEBEC_LABELS: ReadonlyMap<string, string> = new Map<string, string>([
     'Le plus simple pour demander un devis : un appel, avec une réponse directe.',
     'Le plus simple pour demander une soumission : un appel, avec une réponse directe.',
   ],
-  // Textes par défaut du garage Pitlane
   [
     'Entretien, diagnostic et réparations : un atelier de confiance, devis avant intervention.',
     'Entretien, diagnostic et réparations : un atelier de confiance, soumission avant intervention.',
@@ -360,10 +349,7 @@ const QUEBEC_LABELS: ReadonlyMap<string, string> = new Map<string, string>([
 ])
 
 /**
- * Formule un libellé écrit en dur par une template (ou l'un de ses textes par défaut) comme on le lit
- * dans le pays de l'entreprise : au Québec (`country` « CA »), « Devis gratuit » devient « Soumission
- * gratuite » et « E-mail » devient « Courriel ». Le contenu du prospect n'en a pas besoin : l'API
- * l'écrit déjà dans les mots de son pays.
+ * Formule un libellé écrit en dur par une template comme on le lit dans le pays de l'entreprise (au Québec, « Devis gratuit » devient « Soumission gratuite »).
  *
  * @param {Pick<SiteContent, 'country'>} content - Contenu portant le pays de l'entreprise.
  * @param {string} label - Libellé de la template, en français de France, au caractère près.
