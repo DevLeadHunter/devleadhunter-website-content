@@ -101,6 +101,11 @@ export interface SiteContent {
   email?: string
   city?: string
   area?: string
+  /**
+   * Pays de l'entreprise, code ISO 3166-1 alpha-2 (« FR », « CH », « CA »…). Écrit par l'API ; permet à
+   * une template de formuler ses propres libellés comme on les lit dans ce pays (voir `regionalLabel`).
+   */
+  country?: string
   /** Libellé de la licence professionnelle affichée en pied de page (ex. « Licence RBQ »). */
   professionalLicenseLabel?: string
   /** Numéro de la licence professionnelle (ex. « 5678-1234-01 ») ; vide = rien d'affiché. */
@@ -256,4 +261,117 @@ export function professionalLicenseLine(
   }
   const label: string = (content.professionalLicenseLabel ?? '').trim()
   return label ? `${label} ${number}` : number
+}
+
+/**
+ * Libellés écrits en dur par les templates (et leurs textes par défaut), en français de France, avec
+ * leur formulation québécoise. Phrase exacte contre phrase exacte, jamais mot à mot : l'article et
+ * l'adjectif s'accordent avec le nouveau mot (« Devis gratuit » → « Soumission gratuite »). Une
+ * template qui écrit un nouveau libellé propre à la France l'ajoute ici, au caractère près.
+ */
+const QUEBEC_LABELS: ReadonlyMap<string, string> = new Map<string, string>([
+  // Contact
+  ['E-mail', 'Courriel'],
+  ['E-mail :', 'Courriel :'],
+  ['Email', 'Courriel'],
+  ['Email :', 'Courriel :'],
+  ['EMAIL', 'COURRIEL'],
+  ['Votre adresse email', 'Votre adresse courriel'],
+  ['Écrire un email', 'Écrire un courriel'],
+  // Devis
+  ['Devis gratuit', 'Soumission gratuite'],
+  ['Devis gratuit et sans engagement', 'Soumission gratuite et sans engagement'],
+  ['Devis gratuit et sans engagement.', 'Soumission gratuite et sans engagement.'],
+  ['Devis détaillé', 'Soumission détaillée'],
+  ['Devis avant réparation', 'Soumission avant réparation'],
+  ['Demande de devis', 'Demande de soumission'],
+  ['Demander un devis', 'Demander une soumission'],
+  ['Demander un devis gratuit', 'Demander une soumission gratuite'],
+  ['Demandez votre devis gratuit', 'Demandez votre soumission gratuite'],
+  ['Le devis est-il gratuit ?', 'La soumission est-elle gratuite ?'],
+  ['Le devis est-il vraiment gratuit ?', 'La soumission est-elle vraiment gratuite ?'],
+  // Métier
+  ['Artisan électricien', 'Entrepreneur électricien'],
+  ['Un seul artisan pour tout votre extérieur', 'Un seul entrepreneur pour tout votre extérieur'],
+  // Textes par défaut de l'électricien Éclat
+  ['Visite et devis', 'Visite et soumission'],
+  [
+    'Passage sur place, puis devis gratuit et détaillé.',
+    'Passage sur place, puis soumission gratuite et détaillée.',
+  ],
+  [
+    'Le devis est gratuit et sans engagement, remis avant les travaux.',
+    'La soumission est gratuite et sans engagement, remise avant les travaux.',
+  ],
+  [
+    'Un travail soigné, du devis au dernier test',
+    'Un travail soigné, de la soumission au dernier test',
+  ],
+  [
+    'Décrivez votre besoin, vous recevez une réponse rapide et un devis gratuit.',
+    'Décrivez votre besoin, vous recevez une réponse rapide et une soumission gratuite.',
+  ],
+  [
+    'Par téléphone, par e-mail ou avec le formulaire : réponse rapide et devis gratuit.',
+    'Par téléphone, par courriel ou avec le formulaire : réponse rapide et soumission gratuite.',
+  ],
+  // Textes par défaut du paysagiste Verdure
+  [
+    'Oui. Nous nous déplaçons, écoutons votre projet et vous remettons un devis écrit, détaillé et sans engagement, avant tout début de chantier.',
+    'Oui. Nous nous déplaçons, écoutons votre projet et vous remettons une soumission écrite, détaillée et sans engagement, avant tout début de chantier.',
+  ],
+  [
+    'Chaque projet commence par une visite et un devis gratuit, et se termine par un extérieur dont on prend plaisir à profiter.',
+    'Chaque projet commence par une visite et une soumission gratuite, et se termine par un extérieur dont on prend plaisir à profiter.',
+  ],
+  [
+    'Le plus simple pour demander un devis : un appel, avec une réponse directe.',
+    'Le plus simple pour demander une soumission : un appel, avec une réponse directe.',
+  ],
+  // Textes par défaut du garage Pitlane
+  [
+    'Entretien, diagnostic et réparations : un atelier de confiance, devis avant intervention.',
+    'Entretien, diagnostic et réparations : un atelier de confiance, soumission avant intervention.',
+  ],
+  [
+    'Valise multi-marques, lecture des défauts, recherche de panne. Le devis part du diagnostic, pas l’inverse.',
+    'Valise multi-marques, lecture des défauts, recherche de panne. La soumission part du diagnostic, pas l’inverse.',
+  ],
+  [
+    'Courroie / chaîne, pompe à eau, embrayage, joints : interventions planifiées avec devis ferme et délai clair.',
+    'Courroie / chaîne, pompe à eau, embrayage, joints : interventions planifiées avec soumission ferme et délai clair.',
+  ],
+  [
+    'Devis transparent avant réparation. Pas de surprise sur la facture : le devis validé, c’est le prix final.',
+    'Soumission transparente avant réparation. Pas de surprise sur la facture : la soumission validée, c’est le prix final.',
+  ],
+  [
+    'Contrôle visuel + électronique si besoin. On vous rappelle avec le devis.',
+    'Contrôle visuel + électronique si besoin. On vous rappelle avec la soumission.',
+  ],
+  [
+    'Le devis de réparation est établi après diagnostic. On vous l’explique clairement avant toute intervention. Rien n’est lancé sans votre accord.',
+    'La soumission de réparation est établie après diagnostic. On vous l’explique clairement avant toute intervention. Rien n’est lancé sans votre accord.',
+  ],
+  [
+    "Un entretien, un devis, une panne ? Appelez l'atelier ou écrivez : on vous répond rapidement.",
+    "Un entretien, une soumission, une panne ? Appelez l'atelier ou écrivez : on vous répond rapidement.",
+  ],
+])
+
+/**
+ * Formule un libellé écrit en dur par une template (ou l'un de ses textes par défaut) comme on le lit
+ * dans le pays de l'entreprise : au Québec (`country` « CA »), « Devis gratuit » devient « Soumission
+ * gratuite » et « E-mail » devient « Courriel ». Le contenu du prospect n'en a pas besoin : l'API
+ * l'écrit déjà dans les mots de son pays.
+ *
+ * @param {Pick<SiteContent, 'country'>} content - Contenu portant le pays de l'entreprise.
+ * @param {string} label - Libellé de la template, en français de France, au caractère près.
+ * @returns {string} Sa formulation québécoise pour une entreprise du Canada quand le libellé est connu, sinon le libellé tel quel.
+ */
+export function regionalLabel(content: Pick<SiteContent, 'country'>, label: string): string {
+  if (content.country?.trim().toUpperCase() !== 'CA') {
+    return label
+  }
+  return QUEBEC_LABELS.get(label) ?? label
 }
