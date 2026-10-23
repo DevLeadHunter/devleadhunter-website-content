@@ -135,6 +135,17 @@ export interface SiteContent {
   servicesLead?: string
   /** Titre de la section « méthode / comment ça se passe » (vide = défaut du template). */
   stepsHeading?: string
+  /**
+   * Titre de la section « crédit d'impôt » (services à la personne : 50 % de la facture remboursés
+   * en France). Vide = section masquée. Remplie seulement pour une entreprise déclarée.
+   */
+  taxCreditHeading?: string
+  /** Paragraphe qui explique le crédit d'impôt au client final. */
+  taxCreditLead?: string
+  /** Points clés du crédit d'impôt (ex. « 50 % de la facture remboursés, même sans impôt à payer »). */
+  taxCreditPoints?: string[]
+  /** Mention en petit sous la section (conditions, plafond annuel de dépenses). */
+  taxCreditNote?: string
   /** Paragraphe d'introduction sous le titre de la section réalisations (vide = défaut du template). */
   portfolioLead?: string
   /** Paragraphe d'introduction de la section contact (vide = défaut du template). */
@@ -200,6 +211,7 @@ export interface SiteContentEditable {
   about?: string
   services?: string
   method?: string
+  taxCredit?: string
   gallery?: string
   reviews?: string
   faq?: string
