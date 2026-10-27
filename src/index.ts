@@ -61,6 +61,13 @@ export interface SiteContentStep {
   description?: string
 }
 
+export interface SiteContentStrength {
+  /** L'atout en quelques mots (ex. « À l'écoute »). */
+  title?: string
+  /** Ce que l'atout change pour le client, tiré des avis ou des faits de l'entreprise. */
+  description?: string
+}
+
 export interface SiteContentGalleryImage {
   url?: string
   alt?: string
@@ -135,6 +142,8 @@ export interface SiteContent {
   servicesLead?: string
   /** Titre de la section « méthode / comment ça se passe » (vide = défaut du template). */
   stepsHeading?: string
+  /** Titre de la section « Pourquoi nous choisir » (vide = défaut du template). */
+  strengthsHeading?: string
   /**
    * Titre de la section « crédit d'impôt » (services à la personne : 50 % de la facture remboursés
    * en France). Vide = section masquée. Remplie seulement pour une entreprise déclarée.
@@ -185,6 +194,8 @@ export interface SiteContent {
   faq?: SiteContentFaqItem[]
   /** Étapes de la méthode / du déroulé (vide = les étapes par défaut du template). */
   steps?: SiteContentStep[]
+  /** Atouts de la section « Pourquoi nous choisir » (vide = les atouts par défaut du template). */
+  strengths?: SiteContentStrength[]
   zones?: string[]
   openingHours?: SiteContentOpeningHours[]
   /** Réalisations avant/après (paires de photos, éditables par le client dans son CMS). */
@@ -211,6 +222,7 @@ export interface SiteContentEditable {
   about?: string
   services?: string
   method?: string
+  strengths?: string
   taxCredit?: string
   gallery?: string
   reviews?: string
